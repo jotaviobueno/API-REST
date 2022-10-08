@@ -26,3 +26,5 @@ if ( await Connect() ) {
 		console.log( `listen on! http://localhost:${port}`);
 	});
 }
+
+export default app;

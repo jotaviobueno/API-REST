@@ -1,5 +1,5 @@
 // Repository
-import Repository from "../../Reposities/User/UserRepositories.js";
+import Repository from "../../Reposities/User/UserRepository.js";
 
 class UserServices {
 
@@ -18,7 +18,7 @@ class UserServices {
 				created_at: user.created_at
 			}};
 
-		return { statuscode: 400, message: "unable to complete an order, please redo..." };
+		return { statuscode: 400, message: "Could not complete..." };
 	}
 }
 
