@@ -15,7 +15,7 @@ class UserServices {
 
 		if ( (user = await Repository.store(username, email, password)) ) {
 
-			await SESService.SendEmail(email, username);
+			await SESService.welcomeEmail(email, username);
 
 			return { statuscode: 201, message: {
 				username: user.username,

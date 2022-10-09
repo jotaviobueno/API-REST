@@ -12,10 +12,11 @@ class AuthLoginRepository {
 			await  LoginModel.updateOne({ email: email, disconnected_in: new Date(), updated_at: new Date() });
 	}
 
-	async createSession(email) {
+	async createSession(email, userIp) {
 		try {
 			return await LoginModel.create({
 				email: email,
+				address_ip: userIp,
 				session_id: randomUUID(),
 				created_at: new Date(),
 				updated_at: new Date(),
@@ -24,6 +25,31 @@ class AuthLoginRepository {
 		} catch(e) {
 			return false;
 		}
+	}
+
+	async validateIp(email, userIp) {
+		const user = await LoginModel.find({email: email});
+
+		let ip = [];
+
+		user.forEach(async (a) => {
+			if (a.address_ip === userIp)
+				ip.push(a.address_ip);
+		});
+
+		if (ip.length === 0)
+			return false;
+
+		return true;
+	}
+
+	async existSession(email) {
+		const session = await LoginModel.find({email: email});
+
+		if (session.length === 0)
+			return false;
+
+		return true;
 	}
 }
 

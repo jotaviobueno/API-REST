@@ -12,9 +12,25 @@ AWS.config.update({
 
 class SESServices {
 	
-	async SendEmail ( email, username ) {
+	async welcomeEmail ( email, username ) {
 
 		const params = AWSSESHelper( email, "Welcome <3", `Hello ${username}, welcome to our system, in case you are lost watch the video below...`);
+
+		try {
+			
+			await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
+
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
+
+	async alertNewLoginEmail ( email, userIp, username ) {
+
+		const params = AWSSESHelper( email, "New login detected", `Hey ${username}, ted a new login to your account with the ip address: ${userIp} `);
 
 		try {
 			
