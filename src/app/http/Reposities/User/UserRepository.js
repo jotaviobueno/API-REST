@@ -1,5 +1,6 @@
 // Model
 import UserModel from "../../../Models/User/UserModel.js";
+import LoginModel from "../../../Models/User/LoginModel.js";
 
 import bcrypt from "bcrypt";
 
@@ -34,6 +35,14 @@ class UserRepositories {
 		}
 	}
 
+	async existSession(session_id) {
+		const session = await LoginModel.findOne({ session_id: session_id, disconnected_in: null });
+
+		if (! session )
+			return false;
+
+		return session;
+	}
 }
 
 export default new UserRepositories;

@@ -10,6 +10,14 @@ class UserController {
 
 		return res.status(user.statuscode).json({ message: user.message });
 	}
+
+	async profile(req, res) {
+		const { session_id } = req.headers;
+		
+		const profile = await UserServices.profile(session_id);
+
+		return res.status(profile.statuscode).json({ message: profile.message });
+	}
 }
 
 export default new UserController;
