@@ -17,5 +17,11 @@ export const envConfig = {
 		messagingSenderId: process.env.messagingSenderId,
 		appId: process.env.appId,
 		measurementId: process.env.measurementId
+	},
+
+	aws: {
+		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+		region: process.env.REGION,
 	}
 };

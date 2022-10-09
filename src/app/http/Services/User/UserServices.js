@@ -1,6 +1,9 @@
 // Repository
 import Repository from "../../Reposities/User/UserRepository.js";
 
+// AWS SES
+import SESService from "../SES/SESServices.js";
+
 class UserServices {
 
 	async store(username, email, password) {
@@ -10,13 +13,17 @@ class UserServices {
 
 		let user;
 
-		if ( (user = await Repository.store(username, email, password)) )
+		if ( (user = await Repository.store(username, email, password)) ) {
+
+			await SESService.SendEmail(email, username);
+
 			return { statuscode: 201, message: {
 				username: user.username,
 				email: user.email,
 				email_verified_at: user.email_verified_at,
 				created_at: user.created_at
 			}};
+		}
 
 		return { statuscode: 400, message: "Could not complete..." };
 	}
