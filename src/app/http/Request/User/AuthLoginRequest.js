@@ -1,12 +1,11 @@
 // Dependencies
 import yup from "yup";
 
-class UserRequst {
+class AuthLoginRequest {
 
-	async ValidateSignUp ( req, res, next ) {
+	async ValidateSignin ( req, res, next ) {
 
 		const bodyValidator = yup.object().shape({
-			username: yup.string().required(),
 			email: yup.string().email().required(),
 			password: yup.string().required(),
 		});
@@ -22,4 +21,4 @@ class UserRequst {
 	}
 
 }
-export default new UserRequst;
+export default new AuthLoginRequest;
