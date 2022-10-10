@@ -3,7 +3,7 @@ import yup from "yup";
 
 class AuthLoginRequest {
 
-	async ValidateSignin ( req, res, next ) {
+	async validateSignin ( req, res, next ) {
 
 		const bodyValidator = yup.object().shape({
 			email: yup.string().email().required(),

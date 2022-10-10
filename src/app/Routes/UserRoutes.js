@@ -10,7 +10,7 @@ import AuthLoginController from "../http/Controller/User/AuthLoginController.js"
 import UserRequest from "../http/Request/User/UserRequest.js";
 import AuthLoginRequest from "../http/Request/User/AuthLoginRequest.js";
 
-UserRoutes.post("/sign-up", UserRequest.ValidateSignUp, UserController.signUp);
-UserRoutes.post("/sign-in", AuthLoginRequest.ValidateSignin, AuthLoginController.SignIn);
+UserRoutes.post("/sign-up", UserRequest.validateSignUp, UserController.signUp);
+UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController.SignIn);
 
-UserRoutes.get("/profile", UserController.profile);
+UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
