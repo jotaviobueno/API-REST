@@ -1,3 +1,5 @@
+import { envConfig } from "../../config/envConfig.js";
+
 export default function body ( email, Subject, Body ) {
 	return {
 		Destination: {
@@ -18,10 +20,10 @@ export default function body ( email, Subject, Body ) {
 				}
 			},
 		},
-		Source: `${process.env.AWS_EMAIL}`,
+		Source: `${envConfig.AwsEmail}`,
 
 		ReplyToAddresses: [
-			`${process.env.AWS_EMAIL}`
+			`${envConfig.AwsEmail}`
 		],
 	};
 }

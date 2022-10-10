@@ -43,13 +43,22 @@ class AuthLoginRepository {
 		return true;
 	}
 
-	async existSession(email) {
+	async checkTheNumberOfExistingSessions(email) {
 		const session = await LoginModel.find({email: email});
 
 		if (session.length === 0)
 			return false;
 
 		return true;
+	}
+
+	async existSession(session_id) {
+		const session = await LoginModel.findOne({ session_id: session_id, disconnected_in: null });
+		
+		if (! session )
+			return false;
+
+		return session;
 	}
 }
 

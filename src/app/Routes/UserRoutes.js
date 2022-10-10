@@ -5,6 +5,7 @@ export const UserRoutes = express.Router();
 // Controller's
 import UserController from "../http/Controller/User/UserController.js";
 import AuthLoginController from "../http/Controller/User/AuthLoginController.js";
+import UpdateController from "../http/Controller/User/UpdateController.js";
 
 // Request
 import UserRequest from "../http/Request/User/UserRequest.js";
@@ -14,3 +15,4 @@ UserRoutes.post("/sign-up", UserRequest.validateSignUp, UserController.signUp);
 UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController.SignIn);
 
 UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
+UserRoutes.patch("/update/name", UpdateController.updateName);

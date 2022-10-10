@@ -23,7 +23,7 @@ class AuthLoginServices {
 		if (! await UserUtil.ComparePassword(password, user.password))
 			return { statuscode: 422, message: "invalid credentials" };
 
-		const existSession = await AuthLoginRepository.existSession(email);
+		const existSession = await AuthLoginRepository.checkTheNumberOfExistingSessions(email);
 
 		const validateIp = await AuthLoginRepository.validateIp(email, userIp);
 
