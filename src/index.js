@@ -7,7 +7,6 @@ const port = 3001;
 
 // DataBase
 import {Connect} from "./database/MongooseConnect.js";
-import firebase from "./database/FireBaseConnect.js";
 
 // Routes
 import {UserRoutes} from "./app/Routes/UserRoutes.js";

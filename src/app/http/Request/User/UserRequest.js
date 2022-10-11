@@ -36,6 +36,29 @@ class UserRequst {
 
 		await next();
 	}
+
+	async validateAddProfileAvatar ( req, res, next) {
+
+		const headersValidator = yup.object().shape({
+			session_id: yup.string().required(),
+		});
+
+		const bodyValidator = yup.object().shape({
+			image_base64: yup.string().required(),
+		});
+
+
+		try {
+			await headersValidator.validate(req.headers);
+			await bodyValidator.validate(req.body);
+
+		} catch (err) {
+			return res.status(422).json({errors: err.errors});
+		}
+
+		await next();
+
+	}
 }
 
 export default new UserRequst;

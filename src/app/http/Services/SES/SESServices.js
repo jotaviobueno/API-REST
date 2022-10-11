@@ -43,7 +43,6 @@ class SESServices {
 			return false;
 		}
 	}
-
 }
 
 export default new SESServices;

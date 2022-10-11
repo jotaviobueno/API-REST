@@ -13,7 +13,6 @@ class UpdateRequest {
 			session_id: yup.string().required(),
 		});
 
-
 		try {
 			await headersValidator.validate(req.headers);
 			await bodyValidator.validate(req.body);

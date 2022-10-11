@@ -10,11 +10,12 @@ import UpdateController from "../http/Controller/User/UpdateController.js";
 // Request
 import UserRequest from "../http/Request/User/UserRequest.js";
 import AuthLoginRequest from "../http/Request/User/AuthLoginRequest.js";
+import UpdateRequest from "../http/Request/User/UpdateRequest.js";
 
 UserRoutes.post("/sign-up", UserRequest.validateSignUp, UserController.signUp);
 UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController.SignIn);
 
 UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
-UserRoutes.patch("/update/name", UpdateController.updateName);
+UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
 
-UserRoutes.post("/profile/avatar", UserController.addAvatar);
+UserRoutes.post("/profile/avatar", UserRequest.validateAddProfileAvatar, UserController.addAvatar);
