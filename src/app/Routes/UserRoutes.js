@@ -16,3 +16,5 @@ UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController
 
 UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
 UserRoutes.patch("/update/name", UpdateController.updateName);
+
+UserRoutes.post("/profile/avatar", UserController.addAvatar);

@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 
-import {envConfig} from "../../../../config/envConfig.js";
+import {envConfig} from "../../../../config/storage.js";
 import AWSSESHelper from "../../../Helper/AWSSESHelper.js";
 
 AWS.config.update({

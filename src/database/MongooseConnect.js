@@ -1,11 +1,11 @@
 // Dependencies
 import mongoose from "mongoose";
 
-import {envConfig} from "../config/envConfig.js";
+import {envConfig} from "../config/storage.js";
 
 export async function Connect () {
 
-	return await mongoose.connect( "mongodb://localhost:27017/exghange").then( () => {
+	return await mongoose.connect( envConfig.databaseURL ).then( () => {
 		console.log("connected with Mongoose");
 
 		return true;

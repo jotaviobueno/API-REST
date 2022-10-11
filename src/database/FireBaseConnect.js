@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import {envConfig} from "../config/envConfig.js";
+import {envConfig} from "../config/storage.js";
 
 try {
 	firebase.initializeApp(envConfig.firebaseConfig);

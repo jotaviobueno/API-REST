@@ -1,19 +1,20 @@
 // Repository
-import Repository from "../../Reposities/User/UserRepository.js";
+import UserRepository from "../../Reposities/User/UserRepository.js";
 
 // AWS SES
 import SESService from "../SES/SESServices.js";
+import S3Service from "../S3/S3Services.js";
 
 class UserServices {
 
 	async store(username, email, password) {
 
-		if ( await Repository.existUser(email) )
+		if ( await UserRepository.existUser(email) )
 			return { statuscode: 422, message: "already existing email" };
 
 		let user;
 
-		if ( (user = await Repository.store(username, email, password)) ) {
+		if ( (user = await UserRepository.store(username, email, password)) ) {
 
 			await SESService.welcomeEmail(email, username);
 
@@ -32,12 +33,12 @@ class UserServices {
 		
 		let session;
 
-		if (! (session = await Repository.existSession(session_id)) )
+		if (! (session = await UserRepository.existSession(session_id)) )
 			return { statuscode: 422, message: "invalid session" };
 
 		let user;
 
-		if (! (user = await Repository.existUser(session.email)) )
+		if (! (user = await UserRepository.existUser(session.email)) )
 			return { statuscode: 406, message: "email that is linked to this account is having problems..." };
 
 		if (user) 
@@ -52,6 +53,32 @@ class UserServices {
 				created_at: user.created_at,
 				updated_at: user.updated_at
 			}};
+
+		return { statuscode: 400, message: "Could not complete..." };
+	}
+
+	async addAvatar(session_id, image_base64) {
+
+		let session;
+
+		if (! (session = await UserRepository.existSession(session_id)) )
+			return { statuscode: 422, message: "invalid session" };
+
+		let user;
+
+		if (! (user = await UserRepository.existUser(session.email)) )
+			return { statuscode: 406, message: "email that is linked to this account is having problems..." };
+
+		const avatar_url = await S3Service.imageUpload(image_base64, user._id);
+
+		if (! avatar_url )
+			return { statuscode: 400, message: "the image type is not accepted" };
+
+		if ( avatar_url ) {
+			await UserRepository.addProfileAvatar(avatar_url, user.email);
+
+			return { statuscode: 204, message: "" };
+		}
 
 		return { statuscode: 400, message: "Could not complete..." };
 	}

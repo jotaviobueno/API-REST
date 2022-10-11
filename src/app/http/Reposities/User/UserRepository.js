@@ -43,6 +43,14 @@ class UserRepositories {
 
 		return session;
 	}
+
+	async addProfileAvatar(avatar_url, email) {
+		try {
+			await UserModel.updateOne({ email: email, deleted_at: null }, { avatar_url: avatar_url, updated_at: new Date() });
+		} catch (e) {
+			return false;
+		}
+	}
 }
 
 export default new UserRepositories;

@@ -36,6 +36,6 @@ class UserRequst {
 
 		await next();
 	}
-
 }
+
 export default new UserRequst;

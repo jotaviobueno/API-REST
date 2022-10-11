@@ -1,13 +1,12 @@
 import request from "supertest";
-// import app from "../../../index.js";
-import app from "../../../app/http/Controller/User/UserController.js";
+import app from "../../../index.js";
 
 describe("User Test's", () => {
 	it ("sign-up_test_success", () => {
 
 		const data = {
 			username: "otavio bueno",
-			email: "joseotaviocbueno@gmail.com",
+			email: "123asb@gmail.com",
 			password: "abc123@!"
 		};
 
@@ -16,12 +15,12 @@ describe("User Test's", () => {
 			const test = request(app)
 				.post("/sign-up")
 				.send(data)
-				.expect(201)
-				.expect(test.body.message.username).toEqual(data.username);
+				.expect(201);
+				
+				
 			
 		} catch(e) {
 			console.log(e);
 		}
-			
 	});
 });

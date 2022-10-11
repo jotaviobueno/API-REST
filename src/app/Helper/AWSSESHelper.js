@@ -1,4 +1,4 @@
-import { envConfig } from "../../config/envConfig.js";
+import { envConfig } from "../../config/storage.js";
 
 export default function body ( email, Subject, Body ) {
 	return {
