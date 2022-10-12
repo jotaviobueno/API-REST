@@ -15,15 +15,24 @@ class UserServices {
 		let user;
 
 		if ( (user = await UserRepository.store(username, email, password)) ) {
+			const uuid = await UserRepository.EmailValidation(email);
 
-			await SESService.welcomeEmail(email, username);
+			if ( uuid ) {
+				await SESService.welcomeEmail(email, username);
+				
+				setTimeout(async () => {
+					
+					await SESService.verificationEmail(email, username, uuid.uuid);
 
-			return { statuscode: 201, message: {
-				username: user.username,
-				email: user.email,
-				email_verified_at: user.email_verified_at,
-				created_at: user.created_at
-			}};
+				}, "5000");
+		
+				return { statuscode: 201, message: {
+					username: user.username,
+					email: user.email,
+					email_verified_at: user.email_verified_at,
+					created_at: user.created_at
+				}};
+			}
 		}
 
 		return { statuscode: 400, message: "Could not complete..." };
@@ -69,18 +78,20 @@ class UserServices {
 		if (! (user = await UserRepository.existUser(session.email)) )
 			return { statuscode: 406, message: "email that is linked to this account is having problems..." };
 
-		const avatar_url = await S3Service.imageUpload(image_base64, user._id);
-
+		try {
+			var avatar_url = await S3Service.imageUpload(image_base64, user._id);
+			
+		} catch (e) {
+			
+			return { statuscode: 400, message: "Could not complete..." };
+		}
+		
 		if (! avatar_url )
 			return { statuscode: 400, message: "the image type is not accepted" };
 
-		if ( avatar_url ) {
-			await UserRepository.addProfileAvatar(avatar_url, user.email);
+		await UserRepository.addProfileAvatar(avatar_url, user.email);
 
-			return { statuscode: 204, message: "" };
-		}
-
-		return { statuscode: 400, message: "Could not complete..." };
+		return { statuscode: 204, message: "" };
 	}
 }
 

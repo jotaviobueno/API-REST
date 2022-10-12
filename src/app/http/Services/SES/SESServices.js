@@ -43,6 +43,36 @@ class SESServices {
 			return false;
 		}
 	}
+
+	async verificationEmail (email, username, uuid) {
+		const params = AWSSESHelper( email, "Verification email", `Hey ${username}, to verify your account just click the link below. ${"http://localhost:3001/verify?id=" + uuid}`);
+
+		try {
+			
+			await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
+
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
+
+	async verifiedEmail(email) {
+		const params = AWSSESHelper( email, "email verified", `${new Date()}`);
+
+		try {
+			
+			await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
+
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
 }
 
 export default new SESServices;

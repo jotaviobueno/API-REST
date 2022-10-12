@@ -16,9 +16,6 @@ describe("User Test's", () => {
 				.post("/sign-up")
 				.send(data)
 				.expect(201);
-				
-				
-			
 		} catch(e) {
 			console.log(e);
 		}

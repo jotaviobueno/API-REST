@@ -5,6 +5,7 @@ export const UserRoutes = express.Router();
 // Controller's
 import UserController from "../http/Controller/User/UserController.js";
 import AuthLoginController from "../http/Controller/User/AuthLoginController.js";
+import AuthAuthenticationController from "../http/Controller/User/AuthAuthenticationController.js";
 import UpdateController from "../http/Controller/User/UpdateController.js";
 
 // Request
@@ -19,3 +20,4 @@ UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
 UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
 
 UserRoutes.post("/profile/avatar", UserRequest.validateAddProfileAvatar, UserController.addAvatar);
+UserRoutes.get("/verify", AuthAuthenticationController.verifyEmail);

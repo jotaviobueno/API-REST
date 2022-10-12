@@ -1,8 +1,10 @@
 // Model
 import UserModel from "../../../Models/User/UserModel.js";
 import LoginModel from "../../../Models/User/LoginModel.js";
+import EmailValidation from "../../../Models/User/EmailValidation.js";
 
 import bcrypt from "bcrypt";
+import {randomUUID} from "crypto";
 
 class UserRepositories {
 
@@ -47,6 +49,21 @@ class UserRepositories {
 	async addProfileAvatar(avatar_url, email) {
 		try {
 			await UserModel.updateOne({ email: email, deleted_at: null }, { avatar_url: avatar_url, updated_at: new Date() });
+		} catch (e) {
+			return false;
+		}
+	}
+
+	async EmailValidation(email) {
+		try {
+			return await EmailValidation.create({
+				email: email,
+				uuid: randomUUID(),
+				expires_at: new Date().setHours(new Date().getHours() + 2),
+				status: "generated",
+				created_at: new Date(),
+				updated_at: new Date(),
+			});
 		} catch (e) {
 			return false;
 		}
