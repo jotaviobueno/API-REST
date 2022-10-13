@@ -47,6 +47,9 @@ typings/
 # TypeScript cache
 *.tsbuildinfo
 
+.eslint.json
+jest.config.mjs
+
 # Optional npm cache directory
 .npm
 

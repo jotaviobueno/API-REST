@@ -12,13 +12,14 @@ import UpdateController from "../http/Controller/User/UpdateController.js";
 import UserRequest from "../http/Request/User/UserRequest.js";
 import AuthLoginRequest from "../http/Request/User/AuthLoginRequest.js";
 import UpdateRequest from "../http/Request/User/UpdateRequest.js";
+import AuthAuthenticationRequest from "../http/Request/User/AuthAuthenticationRequest.js";
 
 UserRoutes.post("/sign-up", UserRequest.validateSignUp, UserController.signUp);
 UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController.SignIn);
 
 UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
 UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
-
 UserRoutes.post("/profile/avatar", UserRequest.validateAddProfileAvatar, UserController.addAvatar);
-UserRoutes.get("/verify", AuthAuthenticationController.verifyEmail);
-UserRoutes.post("/new-verify/token", AuthAuthenticationController.generationNewToken);
+
+UserRoutes.get("/verify", AuthAuthenticationRequest.validateVerifyEmail, AuthAuthenticationController.verifyEmail);
+UserRoutes.post("/new-verify/token", AuthAuthenticationRequest.validateGenerationNewToken, AuthAuthenticationController.generationNewToken);
