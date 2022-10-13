@@ -8,5 +8,3 @@ class UserUtil {
 }
 
 export default new UserUtil;
-
-// criar o sistema de verificar a conta pelo email

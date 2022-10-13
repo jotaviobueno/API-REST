@@ -6,6 +6,7 @@ export const UserRoutes = express.Router();
 import UserController from "../http/Controller/User/UserController.js";
 import AuthLoginController from "../http/Controller/User/AuthLoginController.js";
 import AuthAuthenticationController from "../http/Controller/User/AuthAuthenticationController.js";
+import AuthTokenController from "../http/Controller/User/AuthTokenController.js";
 import UpdateController from "../http/Controller/User/UpdateController.js";
 
 // Request
@@ -16,10 +17,12 @@ import AuthAuthenticationRequest from "../http/Request/User/AuthAuthenticationRe
 
 UserRoutes.post("/sign-up", UserRequest.validateSignUp, UserController.signUp);
 UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController.SignIn);
-
 UserRoutes.get("/profile", UserRequest.validateProfile, UserController.profile);
-UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
 UserRoutes.post("/profile/avatar", UserRequest.validateAddProfileAvatar, UserController.addAvatar);
 
 UserRoutes.get("/verify", AuthAuthenticationRequest.validateVerifyEmail, AuthAuthenticationController.verifyEmail);
 UserRoutes.post("/new-verify/token", AuthAuthenticationRequest.validateGenerationNewToken, AuthAuthenticationController.generationNewToken);
+
+UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
+
+UserRoutes.post("/change-email", AuthTokenController.generationTokenToChangeEmail);

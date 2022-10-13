@@ -73,6 +73,21 @@ class SESServices {
 			return false;
 		}
 	}
+
+	async sendCodeToChangeEmail(email, code, expires) {
+		const params = AWSSESHelper( email, "your code arrived", `${code} expires in ${expires}`);
+
+		try {
+			
+			await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
+
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
 }
 
 export default new SESServices;
