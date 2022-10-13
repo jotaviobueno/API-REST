@@ -37,7 +37,7 @@ class AuthAuthenticationRepository {
 	async amountUserId(email) {
 		const amount = await EmailValidation.find({ email: email, status: "generated" });
 
-		if ( amount.length > 1 ) {
+		if ( amount.length > 0 ) {
 
 			amount.forEach( async (id) => {
 				await EmailValidation.updateOne({ uuid: id.uuid }, { status: "discarted", updated_at: new Date() });

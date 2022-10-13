@@ -21,3 +21,4 @@ UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateControl
 
 UserRoutes.post("/profile/avatar", UserRequest.validateAddProfileAvatar, UserController.addAvatar);
 UserRoutes.get("/verify", AuthAuthenticationController.verifyEmail);
+UserRoutes.post("/new-verify/token", AuthAuthenticationController.generationNewToken);
