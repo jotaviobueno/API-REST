@@ -14,6 +14,7 @@ import UserRequest from "../http/Request/User/UserRequest.js";
 import AuthLoginRequest from "../http/Request/User/AuthLoginRequest.js";
 import UpdateRequest from "../http/Request/User/UpdateRequest.js";
 import AuthAuthenticationRequest from "../http/Request/User/AuthAuthenticationRequest.js";
+import AuthTokenRequest from "../http/Request/User/AuthTokenRequest.js";
 
 UserRoutes.post("/sign-up", UserRequest.validateSignUp, UserController.signUp);
 UserRoutes.post("/sign-in", AuthLoginRequest.validateSignin, AuthLoginController.SignIn);
@@ -25,4 +26,4 @@ UserRoutes.post("/new-verify/token", AuthAuthenticationRequest.validateGeneratio
 
 UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
 
-UserRoutes.post("/change-email", AuthTokenController.generationTokenToChangeEmail);
+UserRoutes.post("/change-email", AuthTokenRequest.validateGenerationTokenToChangeEmail, AuthTokenController.generationTokenToChangeEmail);
