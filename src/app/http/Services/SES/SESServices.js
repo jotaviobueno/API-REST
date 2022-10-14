@@ -88,6 +88,21 @@ class SESServices {
 			return false;
 		}
 	}
+
+	async updateEmailAlert(email, newEmail) {
+		const params = AWSSESHelper( email, "you email changed", `your email has just been changed to ${newEmail}`);
+
+		try {
+			
+			await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
+
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
 }
 
 export default new SESServices;

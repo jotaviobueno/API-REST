@@ -10,6 +10,15 @@ class UpdateController {
 
 		return res.status(updateName.statuscode).json({ message: updateName.message });
 	}
+
+	async updateEmail(req, res) {
+		const { token } = req.query;
+		const { new_email } = req.body;
+
+		const a = await UpdateServices.updateEmail(token, new_email);
+
+		return res.status(a.statuscode).json({ message: a.message });
+	}
 }
 
 export default new UpdateController;

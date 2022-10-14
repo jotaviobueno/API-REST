@@ -20,6 +20,22 @@ class AuthTokenRepository {
 			return false;
 		} 
 	}
+
+	async amountOfUserTokens(email) {
+		const tokens = await TokensChangeEmail.find({ email: email, status: "generated" });
+
+		if ( tokens.length > 0 )
+			tokens.forEach( async (token) => {
+				await TokensChangeEmail.updateOne({ token: token.token }, { status: "discarted" });
+			});
+	}
+
+	async checkTokenExpirationData(token) {
+		const findToken = await TokensChangeEmail.findOne({ token: token });
+
+		if ( new Date() >= findToken.expires_at )
+			await TokensChangeEmail.updateOne({ token: token }, { status: "discarted" });
+	}
 }
 
 export default new AuthTokenRepository;

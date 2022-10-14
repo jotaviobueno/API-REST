@@ -13,6 +13,8 @@ class AuthTokenServices {
 		if (! (session = await AuthLoginRepository.existSession(session_id)) )
 			return { statuscode: 422, message: "invalid session" };
 
+		await AuthTokenRepository.amountOfUserTokens(session.email);
+
 		const token = await AuthTokenRepository.generationTokenToChangeEmail(session.email);
 
 		if (token) {

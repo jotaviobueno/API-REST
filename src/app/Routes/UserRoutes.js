@@ -27,3 +27,4 @@ UserRoutes.post("/new-verify/token", AuthAuthenticationRequest.validateGeneratio
 UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateController.updateName);
 
 UserRoutes.post("/change-email", AuthTokenRequest.validateGenerationTokenToChangeEmail, AuthTokenController.generationTokenToChangeEmail);
+UserRoutes.post("/update-email", UpdateController.updateEmail);
