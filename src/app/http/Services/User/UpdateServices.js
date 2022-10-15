@@ -46,15 +46,15 @@ class UpdateServices {
 			return { statuscode: 401, message: "token invalid" };
 		
 		if ( await UserRepository.existUser(new_email) )
-			return { statuscode: 422, message: "email não pode ser atualizado pois o email informando e invalido" };
+			return { statuscode: 403, message: "e-mail informed and invalid" };
 			
 		let user;
 
 		if (! (user = await UserRepository.existUser(Token.email)) )
-			return { statuscode: 422, message: "token invalido" };
+			return { statuscode: 422, message: "token invalid" };
 
 		if ( Token.email === new_email )
-			return;
+			return { statuscode: 422, message: "you can't update the email to the same as your account" };
 
 		const update = await UpdateRepository.updateEmail(user, new_email);
 
