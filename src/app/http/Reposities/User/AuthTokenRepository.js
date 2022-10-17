@@ -1,4 +1,5 @@
 import TokensChangeEmail from "../../../Models/User/TokensChangeEmail.js";
+import TokensToChangePassword from "../../../Models/User/TokensToChangePassword.js";
 
 import {randomUUID} from "crypto";
 
@@ -35,6 +36,17 @@ class AuthTokenRepository {
 
 		if ( new Date() >= findToken.expires_at )
 			await TokensChangeEmail.updateOne({ token: token }, { status: "discarted" });
+	}
+
+	async generationTokenToChangePassword(email) {
+		return await TokensToChangePassword.create({
+			email: email,
+			token: randomUUID(),
+			expires_at: new Date().setHours(new Date().getHours() + 1),
+			status: "generated",
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 	}
 }
 

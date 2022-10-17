@@ -9,6 +9,14 @@ class AuthTokenController {
         
 		return res.status(token.statuscode).json({ message: token.message });
 	}
+
+	async generationTokenToChangePassword(req, res) {
+		const {email} = req.body;
+
+		const token = await AuthTokenServices.generationTokenToChangePassword(email);
+
+		return res.status(token.statuscode).json({ message: token.message });
+	}
 }
 
 export default new AuthTokenController;

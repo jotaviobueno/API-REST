@@ -74,7 +74,7 @@ class SESServices {
 		}
 	}
 
-	async sendCodeToChangeEmail(email, code, expires) {
+	async sendCodeToEmail(email, code, expires) {
 		const params = AWSSESHelper( email, "your code arrived", `${code} expires in ${expires}`);
 
 		try {
