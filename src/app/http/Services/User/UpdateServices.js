@@ -6,6 +6,8 @@ import AuthTokenRepository from "../../Reposities/user/AuthTokenRepository.js";
 
 import SESServices from "../SES/SESServices.js";
 
+import {compare, hash} from "bcrypt";
+
 class UpdateServices {
 
 	async updateName(session_id, newName) {
@@ -60,7 +62,7 @@ class UpdateServices {
 
 		if (update) {
 			await UpdateRepository.disconnectAllSession(Token.email);
-
+			+
 			await UpdateRepository.updateToken(token);
 
 			await UpdateRepository.createLog(Token.email, new_email, token);
@@ -68,6 +70,39 @@ class UpdateServices {
 			await SESServices.updateEmailAlert(Token.email, new_email);
 
 			return { statuscode: 204, message: "" };
+		}
+
+		return { statuscode: 400, message: "Could not complete..." };
+	}
+
+	async updatePasswordByToken(token, new_password) {
+
+		await AuthTokenRepository.checkPasswordTokenExpirationData(token);
+
+		let Token;
+		
+		if (!( Token = await UpdateRepository.existPasswordToken( token ) ))
+			return { statuscode: 401, message: "token invalid" };
+	
+		let user;
+
+		if (! (user = await UserRepository.existUser(Token.email)) )
+			return { statuscode: 422, message: "token invalid" };
+
+		if ( await compare(new_password, user.password) )
+			return  { statuscode: 422, message: "the password you are entering is the same as your account" };
+
+		if (  await UpdateRepository.updatePassword(user.email, new_password)) {
+
+			await UpdateRepository.createLogP(user.email, token);
+
+			await UpdateRepository.updatePasswordToken(token);
+
+			await UpdateRepository.disconnectAllSession(user.email);
+
+			await SESServices.alertUpdatedPassword(Token.email);
+
+			return { statuscode: 200, message: "password change" };
 		}
 
 		return { statuscode: 400, message: "Could not complete..." };

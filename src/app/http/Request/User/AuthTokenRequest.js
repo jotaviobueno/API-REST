@@ -20,4 +20,5 @@ class AuthLoginRequest {
 	}
 
 }
+
 export default new AuthLoginRequest;

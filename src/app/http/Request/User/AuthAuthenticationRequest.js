@@ -36,4 +36,5 @@ class AuthAuthenticationRequest {
 	}
 
 }
+
 export default new AuthAuthenticationRequest;

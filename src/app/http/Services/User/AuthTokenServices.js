@@ -29,11 +29,14 @@ class AuthTokenServices {
 
 	async generationTokenToChangePassword(email) {
 
+		
 		let user;
-
+		
 		if (! ( user = await UserRepository.existUser(email)) )
 			return { statuscode: 403, message: "user not exist" };
-
+		
+		await AuthTokenRepository.amountOfUserPaswordTokens(user.email);
+		
 		const token = await AuthTokenRepository.generationTokenToChangePassword(user.email);
 
 		if ( token ) {

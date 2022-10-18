@@ -1,8 +1,12 @@
 import NameUpdateHistoryModel from "../../../Models/User/NameUpdateHistoryModel.js";
 import UserModel from "../../../Models/User/UserModel.js";
 import TokensChangeEmail from "../../../Models/User/TokensChangeEmail.js";
+import TokensToChangePassword from "../../../Models/User/TokensToChangePassword.js";
 import LoginModel from "../../../Models/User/LoginModel.js";
 import EmailUpdateHistory from "../../../Models/User/EmailUpdateHistory.js";
+import ChangePasswordHistory from "../../../Models/User/ChangePasswordHistory.js";
+
+import {hash} from "bcrypt";
 
 class UpdateRepository {
 
@@ -60,6 +64,38 @@ class UpdateRepository {
 		await EmailUpdateHistory.create({
 			old_email: oldemail,
 			new_email: newemail,
+			token: token,
+			status: "success",
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
+	}
+
+	async existPasswordToken(token) {
+		const Token = await TokensToChangePassword.findOne({ token: token, status: "generated" });
+
+		if (! Token )
+			return false;
+
+		return Token;
+	}
+
+	async updatePassword(email, new_password) {
+		const update = await UserModel.updateOne({ email: email, deleted_at: null }, { password: await hash(new_password, 10), updated_at: new Date() });
+
+		if ( update.modifiedCount === 1 )
+			return true;
+			
+		return false;
+	}
+
+	async updatePasswordToken(token) {
+		await TokensToChangePassword.updateOne({ token: token }, { updated_at: new Date(), status: "used" });
+	}
+
+	async createLogP(email, token) {
+		await ChangePasswordHistory.create({
+			email: email,
 			token: token,
 			status: "success",
 			created_at: new Date(),

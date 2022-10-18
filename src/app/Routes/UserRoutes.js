@@ -29,3 +29,5 @@ UserRoutes.patch("/update/name", UpdateRequest.validateUpdateName, UpdateControl
 UserRoutes.post("/get-token/change-email", AuthTokenRequest.validateGenerationTokenToChangeEmail, AuthTokenController.generationTokenToChangeEmail);
 UserRoutes.post("/update-email", UpdateController.updateEmail);
 UserRoutes.post("/get-token/change-password", AuthTokenController.generationTokenToChangePassword);
+
+UserRoutes.post("/update-password", UpdateController.updatePasswordByToken );

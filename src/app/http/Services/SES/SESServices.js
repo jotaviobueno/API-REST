@@ -103,6 +103,21 @@ class SESServices {
 			return false;
 		}
 	}
+
+	async alertUpdatedPassword(email) {
+		const params = AWSSESHelper( email, "your password has been changed", `We inform you that your account password was changed in ${new Date()}, if it is not you, please contact support.`);
+
+		try {
+			
+			await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
+
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
 }
 
 export default new SESServices;

@@ -15,9 +15,18 @@ class UpdateController {
 		const { token } = req.query;
 		const { new_email } = req.body;
 
-		const a = await UpdateServices.updateEmail(token, new_email);
+		const update = await UpdateServices.updateEmail(token, new_email);
 
-		return res.status(a.statuscode).json({ message: a.message });
+		return res.status(update.statuscode).json({ message: update.message });
+	}
+
+	async updatePasswordByToken(req, res) {
+		const { token } = req.query;
+		const { new_password } = req.body;
+
+		const update = await UpdateServices.updatePasswordByToken(token, new_password);
+
+		return res.status(update.statuscode).json({ message: update.message });
 	}
 }
 
